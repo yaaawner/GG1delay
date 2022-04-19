@@ -6,87 +6,60 @@ TIME_INTERVAL = 1
 
 
 def pareto(alpha=1.4, k=0.05):
-    #output_file = open(argv[1], "w")
-    t = 0.0
-    count = 0
-    current_time = 0
+    variable_list = []
     random.seed(1)
     for i in range(0, NUMBER):
-        ti = random.paretovariate(alpha) * k
-        #print(ti)
-        t += ti
-        #print(t)
-        if t // TIME_INTERVAL == current_time:
-            count += 1
-        else:
-            #output_file.write(str(count) + '\n')
-            print(count)
-            current_time += 1
-            while current_time != t // TIME_INTERVAL:
-                #output_file.write(str(0) + '\n')
-                print(0)
-                current_time += 1
-            count = 1
-    print(count)
-#output_file.write(str(count) + '\n')
-#output_file.close()
+        var = random.paretovariate(alpha) * k
+        variable_list.append(var)
+    return variable_list
 
 
-def weibull(alpha=0.15, beta=2):
-    # output_file = open(argv[1], "w")
-    t = 0.0
-    count = 0
-    current_time = 0
+def weibull(alpha=0.15, beta=2.0):
+    variable_list = []
     random.seed(1)
     for i in range(0, NUMBER):
-        ti = random.weibullvariate(alpha, beta)
-        # print(ti)
-        t += ti
-        # print(t)
-        if t // TIME_INTERVAL == current_time:
-            count += 1
-        else:
-            # output_file.write(str(count) + '\n')
-            print(count)
-            current_time += 1
-            while current_time != t // TIME_INTERVAL:
-                # output_file.write(str(0) + '\n')
-                print(0)
-                current_time += 1
-            count = 1
-    print(count)
+        var = random.weibullvariate(alpha, beta)
+        variable_list.append(var)
+    return variable_list
 
 
 def lognormal(mu=0.99, sigma=0.005):
-    # output_file = open(argv[1], "w")
+    variable_list = []
+    random.seed(1)
+    for i in range(0, NUMBER):
+        var = random.lognormvariate(mu, sigma)
+        variable_list.append(var)
+    return variable_list
+
+
+def convert_to_intensity(variable_list):
+    intensity_list = []
     t = 0.0
     count = 0
     current_time = 0
-    random.seed(1)
-    for i in range(0, NUMBER):
-        ti = random.lognormvariate(mu, sigma)
-        print(ti)
-        t += ti
-        # print(t)
+    for var in variable_list:
+        t += var
         if t // TIME_INTERVAL == current_time:
             count += 1
         else:
-            # output_file.write(str(count) + '\n')
-            print(count)
+            intensity_list.append(count)
             current_time += 1
             while current_time != t // TIME_INTERVAL:
-                # output_file.write(str(0) + '\n')
-                print(0)
+                intensity_list.append(0)
                 current_time += 1
             count = 1
-    print(count)
+    intensity_list.append(count)
 
 
-print("pareto")
-pareto()
 
-print("weibull")
-weibull()
+#print("pareto")
+#pareto()
+
+# print("weibull beta=2")
+# print(weibull())
+
+#print("weibull beta=1.5")
+#print(weibull(beta=1.5))
 
 #print("lognormal")
 #lognormal()

@@ -1,6 +1,8 @@
 from flow_model import Flow
 from flow_model import StatsInfo
 import scipy.stats as sps
+from math import fabs
+
 
 def priority_waiting_time(flow_list, pr):
     # priority sort
@@ -12,7 +14,7 @@ def priority_waiting_time(flow_list, pr):
     for i in range(pr):
         sigma_prev = sigma
         sigma += flow_list[i].ro
-        print(i, sigma)
+        print("i: ", i, "sigma: ", sigma)
         if (i != pr - 1):
             alpha_sum += (flow_list[i].ro ** 2) * flow_list[pr - 1].lambda_a * \
                          (flow_list[i].arrival.scv + flow_list[i].service.scv) / flow_list[i].lambda_a
@@ -26,8 +28,22 @@ def priority_waiting_time(flow_list, pr):
     return length / flow_list[pr - 1].lambda_a
 
 
-flow_list = []
-for i in range(3):
-    flow_list.append(Flow(StatsInfo(sps.pareto(b=3)), StatsInfo(sps.pareto(b=3)), 3-i, 1.0))
+def mg1(flow_list, pr):
+    flow_list.sort(key=lambda flow: flow.priority)
+    sigma = 0
+    sigma_prev = 0
 
-print(priority_waiting_time(flow_list, 3))
+    numerator = 0
+    for flow in flow_list:
+        numerator += flow.lambda_a * flow.service.second_moment
+    # вычисляем знаменатель
+    for i in range(pr):
+        sigma_prev = sigma
+
+        if i == 0:
+            sigma = flow_list[i].lambda_a / flow_list[i].mu
+        else:
+            sigma = sigma_prev + flow_list[i].lambda_a / flow_list[i].mu
+
+    denominator = 2 * (1 - sigma_prev) * (1 - sigma)
+    return numerator / denominator
