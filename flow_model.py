@@ -2,11 +2,21 @@ from math import fabs
 
 
 class StatsInfo:
-    def __init__(self, distribution):
-        self.mean = distribution.mean()
-        self.std = distribution.std()
+    def __init__(self, variables):
+        self.variables = variables
+        length = len(self.variables)
+        self.mean = sum(self.variables) / length
+
+        accumulate = 0
+        for i in range(length):
+            accumulate += fabs(self.mean - self.variables[i])
+        self.std = accumulate / length
         self.scv = (self.std / self.mean) ** 2
-        self.second_moment = distribution.second_moment()
+
+        s = 0
+        for var in self.variables:
+            s += var ** 2
+        self.second_moment = s / length
 
 
 class Flow:
@@ -21,28 +31,3 @@ class Flow:
 
     def __str__(self):
         return str(self.priority)
-
-
-class Distribution:
-    def __init__(self, var_list):
-        self.variables = var_list
-
-    def mean(self):
-        return sum(self.variables)/len(self.variables)
-
-    def std(self):
-        mean = self.mean()
-        count = 0
-        accumulate = 0
-        for var in self.variables:
-            count += 1
-            accumulate += fabs(mean-var)
-        return accumulate / count
-
-    def second_moment(self):
-        count = 0
-        sum = 0
-        for var in self.variables:
-            sum += var ** 2
-            count += 1
-        return sum / count
