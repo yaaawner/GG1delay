@@ -1,4 +1,4 @@
-from generate import weibull
+from generate import *
 
 
 def sum_lambda(lambda_lists):
@@ -32,9 +32,24 @@ def arrival_transform(arrival_lists):
     return new_arrival
 
 
+def weighted_mean_service_time(service_lists, lambda_list, lambda_p):
+    new_service = []
+    for i in range(len(service_lists[0])):
+        s = 0
+        for j in range(len(service_lists)):
+            s += service_lists[j][i] * lambda_list[j] / lamda_p
+        new_service.append(s)
+    return new_service
+
+
 arr1 = weibull()
 arr2 = weibull(alpha=0.10)
 print(arr1)
 print(arr2)
 
-print(arrival_transform([arr1, arr2]))
+latency1 = convert_to_intensity(arr1)
+latency2 = convert_to_intensity(arr2)
+lamda1 = sum(latency1)/len(latency1)
+lamda2 = sum(latency2)/len(latency2)
+lamda_p = lamda1 + lamda2
+print(weighted_mean_service_time([arr1, arr2], [lamda1, lamda2], lamda_p))
