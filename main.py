@@ -19,10 +19,14 @@ for beta in beta_list_service:
 
 priority_flows = []
 for i in range(1, 4):
-    flow = Flow(StatsInfo(Distribution(arrival_flows[i-1])), StatsInfo(Distribution(service_flows[i-1])), i)
+    flow = Flow(StatsInfo(arrival_flows[i-1]), StatsInfo(service_flows[i-1]), i)
     priority_flows.append(flow)
 
 #print(priority_waiting_time(priority_flows, 1))
 #print(priority_waiting_time(priority_flows, 2))
-print(priority_waiting_time(priority_flows, 3))
-print(mg1(priority_flows, 3))
+print(priority_waiting_time(priority_flows, 1))
+print(mg1(priority_flows, 1))
+
+arr1 = weibull()
+print(kingman(priority_flows[0]))
+

@@ -11,6 +11,7 @@ def priority_waiting_time(flow_list, pr):
     sigma_prev = 0
     alpha_sum = 0
     beta = 0
+
     for i in range(pr):
         sigma_prev = sigma
         sigma += flow_list[i].ro
@@ -26,6 +27,12 @@ def priority_waiting_time(flow_list, pr):
     length = flow_list[pr - 1].ro + flow_list[pr - 1].ro * (flow_list[pr - 1].arrival.scv - 1) / (2 * (1 - sigma)) + \
              (alpha + beta) / ((1 - sigma) * (1 - sigma_prev))
     return length / flow_list[pr - 1].lambda_a
+
+
+def kingman(flow):
+    numerator = flow.lambda_a * (flow.arrival.std ** 2 + flow.service.std ** 2)
+    denominator = 2 * (1 - flow.ro)
+    return numerator/denominator
 
 
 def mg1(flow_list, pr):
