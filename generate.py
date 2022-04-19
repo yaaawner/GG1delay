@@ -49,6 +49,7 @@ def convert_to_intensity(variable_list):
                 current_time += 1
             count = 1
     intensity_list.append(count)
+    return intensity_list
 
 
 
