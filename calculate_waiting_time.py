@@ -1,5 +1,5 @@
-from flow_model import Flow
-from flow_model import StatsInfo
+from GG1delay.flow_model import Flow
+from GG1delay.flow_model import StatsInfo
 import scipy.stats as sps
 from math import fabs
 

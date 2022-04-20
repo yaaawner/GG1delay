@@ -1,4 +1,4 @@
-from generate import *
+from GG1delay.generate import *
 
 
 def sum_lambda(lambda_lists):

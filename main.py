@@ -1,6 +1,6 @@
-from generate import weibull
-from flow_model import *
-from calculate_waiting_time import *
+from GG1delay.generate import weibull
+from GG1delay.flow_model import *
+from GG1delay.calculate_waiting_time import *
 
 beta_list_arrival = [2.0, 1.5, 0.7]
 beta_list_service = [2.1, 1.3, 0.6]
