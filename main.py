@@ -1,4 +1,4 @@
-from GG1delay.generate import weibull
+from GG1delay.distribution import weibull
 from GG1delay.flow_model import *
 from GG1delay.calculate_waiting_time import *
 
